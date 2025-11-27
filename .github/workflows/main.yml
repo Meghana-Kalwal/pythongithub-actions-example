@@ -12,12 +12,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # ❌ Hardcoded secret
+      #  Hardcoded secret
       - name: Print secret (INSECURE)
         run: |
           echo "HARDCODED_SECRET=abcd1234"
 
-      # ❌ Dangerous eval usage
+      #  Dangerous eval usage
       - name: Dangerous shell command
         run: |
           USER_INPUT="${{ github.actor }}"
@@ -29,12 +29,12 @@ jobs:
         with:
           python-version: '3.11'
 
-      # ⭐ FIXED: Installing Flask directly (no requirements.txt needed)
+      #  FIXED: Installing Flask directly (no requirements.txt needed)
       - name: Install Flask
         run: |
           pip install Flask
 
-      # ❌ Environment variables exposure
+      #  Environment variables exposure
       - name: Print environment
         run: env | grep SECRET || true
 
