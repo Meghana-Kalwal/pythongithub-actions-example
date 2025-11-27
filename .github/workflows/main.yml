@@ -12,28 +12,29 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # ❌ CI/CD Vulnerability: Hardcoded secret in pipeline
+      # ❌ Hardcoded secret
       - name: Print secret (INSECURE)
         run: |
-          echo "HARDCODED_SECRET=abcd1234"   # Semgrep will detect hardcoded secrets
+          echo "HARDCODED_SECRET=abcd1234"
 
-      # ❌ CI/CD Vulnerability: Running user input in shell (Dangerous)
+      # ❌ Dangerous eval usage
       - name: Dangerous shell command
         run: |
           USER_INPUT="${{ github.actor }}"
           eval "echo Processing user: $USER_INPUT"
 
-      # Install dependencies
+      # Install Python
       - name: Install Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
+      # ⭐ FIXED: Installing Flask directly (no requirements.txt needed)
       - name: Install Flask
         run: |
-          pip install -r requirements.txt
+          pip install Flask
 
-      # ❌ CI/CD Vulnerability: Exposing environment vars
+      # ❌ Environment variables exposure
       - name: Print environment
         run: env | grep SECRET || true
 
